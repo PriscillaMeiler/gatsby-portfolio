@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { graphql } from 'gatsby'
-import Layout from '../components/layout'
-import Card from '../components/postcard'
-import Header from '../components/header'
-import Seo from '../components/seo'
+import { graphql, Link } from 'gatsby'
+import Layout from '../../components/layout'
+import Card from '../../components/postcard'
+import Header from '../../components/header'
+import Seo from '../../components/seo'
 
 const BlogPage = ({ data }) => {
   return (
@@ -12,9 +12,11 @@ const BlogPage = ({ data }) => {
       <Layout pageTitle="Blog">
       {
         data.allMdx.nodes.map((node) => (
-          <Card title={node.frontmatter.title} id={node.id} date={node.frontmatter.date}>
-            <p>{node.excerpt}</p>
-          </Card>
+          <Link to={`/blog/${node.frontmatter.slug}`} style={{textDecoration: 'none' }} key={node.id}>
+            <Card title={node.frontmatter.title} id={node.id} date={node.frontmatter.date}>
+              <p>{node.excerpt}</p>
+            </Card>
+          </Link>
         ))
       }
       </Layout>

@@ -1,0 +1,22 @@
+.gatsby-image-wrapper {
+  max-height: 500px;
+}
+.blogpost {
+  &-date {
+    font-size: .8em;
+    margin-top: -15px;
+    margin-bottom: 26px;
+  }
+
+  h2 {
+    font-size: 23px;
+    margin-top: 32px;
+    margin-bottom: 0px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid #e9e9e9;
+  }
+  pre, code {
+    background-color: #e9e9e9;
+    white-space: pre-wrap;
+  }
+}

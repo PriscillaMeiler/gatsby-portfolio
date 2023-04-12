@@ -1,0 +1,483 @@
+---
+title: "Tech Talk"
+date: "2023-04-11"
+slug: "tech-talk"
+hero_image: "./alex-kotliarskyi-ourQHRTE2IM-unsplash.jpg"
+hero_image_alt: "Guy working in his computer, surrounded by people working in their own computers"
+hero_image_credit_text: "Alex Kotliarskyi"
+hero_image_credit_link: "https://unsplash.com/photos/ourQHRTE2IM"
+---
+
+Bem vindo!
+Vamos começar falando um pouco sobre o React e o Gatsby e toda a parte chata e teórica (prometo que vai ser rapidinho).
+
+## React: O que é?
+React é uma biblioteca de construção de páginas da web. Assim como o Vue, que nós já estamos acostumados, o react também usa Javascript como linguagem, e o ponto forte dele, é a criação de páginas a partir de componentes.   
+
+Os componentes podem ser tão simples como uma imagem em SVG, ou complexos e serem compostos por outros componentes, como um formulário de newsletter, por exemplo.   
+
+Cada componente tem seus estados, que são mais ou menos como funcionam o Data do Vue, esses _states_ vão ser responsáveis por como cada coisa vai se comportar dentro da página ou componente.
+
+## Gatsby: O que é?
+O Gatsby é uma junção do React, webpack, GraphQL e algumas outras coisinhas dentro de um único framework. É como se fosse o Nuxt, para o Vue. Inclusive, no Gatsby também temos o arquivo `nuxt.config.js`, mas lá ele se chama `gatsby-config.js`.
+
+Dentro do Gatsby, podemos usar plugins que podem ajudar e facilitar muito a nossa vida de desenvolvedor, como o `gatsby-plugin-mdx` e o `gatsby-plugin-image`, por exemplo. E temos também alguns componentes prontos, chamados de _Built-in React Components_ que podem ser usados. Entre eles, o Gatsby Link e o Gatsby Head, por exemplo, que vamos ver mais pra frente.
+
+## GraphQL: O que é?
+GraphQL é uma _**Q**uery **L**anguage_, e funciona parecido com SQL. Você faz uma chamada pedindo os dados que precisa, e recebe uma resposta, que você pode utilizar na página ou componente.
+
+Um exemplo simples de uma chamada GraphQL:
+  ```
+  const query = graphql`
+    query HomePageQuery {
+      site {
+        title
+        description
+      }
+    }
+    `
+  ```
+
+Essa chamada retorna a seguinte resposta:
+  ```
+  data: {
+    site: {
+      title: "Home"
+      description: "Gatsby tips"
+    }
+  }
+  ```
+
+Um exemplo de uso básico:
+  ```
+  import React from "react"
+  import { graphql } from "gatsby"
+
+  export default function Page({ data }) {
+    return (
+      <div>
+        <h1>About {data.site.siteMetadata.title}</h1>
+        <p>We're a very cool website you should return to often.</p>
+      </div>
+    )
+  }
+
+  export const query = graphql`
+    query {
+      site {
+        siteMetadata {
+          title
+        }
+      }
+    }
+  `
+  ```
+
+Caso estejamos usando uma data no seguinte formato: `YYYY-MM-DD`, o GraphQL já reconhece como uma data, e possibilita o uso de formatação de data na hora de fazer a chamada, e retornar a data no formato desejado, por exemplo:
+
+  ````
+  {
+    allMarkdownRemark(filter: { frontmatter: { date: { ne: null } } }) {
+      edges {
+        node {
+          frontmatter {
+            title
+            date(formatString: "dddd, MMMM Do YYYY")
+          }
+        }
+      }
+    }
+  }
+````
+
+Poderá retornar, por exemplo: `frontmatter.date = Sunday, August 5th 2018`. O  Gatsby usa a biblioteca [Moment.js](https://momentjs.com/docs/#/displaying/format/) para fazer essa formatação, e é possivel ver na documentação todas as opções de formatação de data.
+
+## Próximos passos
+Agora podemos passar para a parte mais interessante. Vamos ver como funciona todas essas coisas juntas. 
+
+### Configuração inicial
+O primeiro passo é criar um projeto Gatsby, com o comando `gastby new` e fazer todas as configurações iniciais. Quando o projeto inicial já estiver criado, usamos o comando `gatsby develop` ou `npm run develop`. Com isso nosso projeto já está pronto para ser trabalhado.
+
+### Criando Componentes
+Como foi falado mais cedo, o principal do React é a criação e utilização de componentes, e é por isso que vamos começar por aqui. Dentro da pasta `src` vamos criar uma pasta para os componentes, e dentro dela, vamos criar nosso primeiro componente, o menu do site, ou Header.
+
+Um componente básico precisa ter apenas alguns itens para funcionar (e eles são basicamente os mesmos itens necessários para a criação de página):
+    ````
+    import * as React from 'react'
+
+    const Header = () => {
+      return (
+        <div>
+          <header>
+            <h1>Título</h1>
+            <nav>
+              <ul>
+                <li>Home</li>
+                <li>About</li>
+                <li>Blog</li>
+              </ul>
+            </nav>
+          </header>
+        </div>
+      )
+    }
+
+
+    export default Header
+    ````
+
+Primeiro precisamos importar o react em si, na primeira linha:   
+`import * as React from 'react'`
+
+Depois temos o componente em si (ou no caso de uma página, o conteúdo da página), nesse caso, o Header, retornando um conteúdo html:   
+    ````
+    const Header = () => {
+      return (
+        <div>
+          <header>
+            <h1>Título</h1>
+            <nav>
+              <ul>
+                <li>Home</li>
+                <li>About</li>
+                <li>Blog</li>
+              </ul>
+            </nav>
+          </header>
+        </div>
+      )
+    }
+    ````
+
+E por último, exportamos o componente para poder usar nas páginas (ou a própria página):   
+`export default Header`
+
+#### Built-in Components - Gatsby Head
+O Gatsby já disponibiliza alguns componentes para facilitar as coisas, e um deles é o `Gatsby Head` que serve para adicionar informações na tag `<head>` da página.
+
+    ````
+    export const Head = () => (
+      <>
+        <title>About Me</title>
+        <meta name="description" content="Your description" />
+      </>
+    )
+    ````
+Esse componente deve ser usado nas páginas, logo após o conteúdo da página e antes de exportar a página. A seguir temos um exemplo de uma página de Sobre:
+
+    ````
+    import * as React from 'react'
+
+    const AboutPage = () => {
+      return (
+        <main>
+          <h1>About Me</h1>
+          <p>Hi there! I'm the proud creator of this site, which I built with Gatsby.</p>
+        </main>
+      )
+    }
+
+    export const Head = () => <title>About Me</title>
+
+    export default AboutPage
+    ````
+
+#### Built-in Components - Link Component
+O Gatsby também disponibiliza um componente de link, que podemos usar para construir a página, e por isso é chamado de Building Block. Funciona da mesma forma que o `<nuxt-link>` para o Vue, mas a diferença é que nesse caso, quando vamos usar esse elemento, temos que fazer a chamada para importar no topo da página.
+
+    ````
+    import * as React from 'react'
+    import { Link } from 'gatsby'
+
+    const Header = () => {
+      return (
+        <div>
+          <header>
+            <h1>Título</h1>
+            <nav>
+              <ul>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/about">About</Link></li>
+                <li><Link to="/blog">Blog</Link></li>
+              </ul>
+            </nav>
+          </header>
+        </div>
+      )
+    }
+
+
+    export default Header
+    ````
+
+Vamos separar o componente do Link para ver como ele é estruturado:
+
+ `<Link to="/">Home</Link>`
+
+A primeira parte é o componente em si: `<Link`.   
+Todos os componentes são nomeados em Pascal Case, ou seja, a primeira letra de cada palavra maiúscula.
+
+A segunda parte são os _props_: `to="/"`.   
+O `to` é um prop do componente `Link`. Cada componente tem seus props específicos.
+
+Dentro do elemento (nesse caso, o `<Link></Link>`), temos os _Children_ do componente.   
+No caso do link, é apenas uma string com o texto do link, mas dependendo do componente, é possivel até termos outro componente como Children.
+
+E por último fechamos a tag, com o `</Link>`
+
+### CSS modules
+Outra facilidade bem legal do Gatsby é o jeito que os estilos podem ser trabalhados, a partir de módulos. O Gatsby é automaticamente configurado para lidar com Módulos de CSS, e isso significa que você pode importar no componente apenas as classes que deseja, ao invés de ter que importar o arquivo inteiro.
+
+Dentro da pasta components, vamos criar uma pasta para colocar os estilos, e vamos chamá-la de css-modules.
+
+Para que o Gatsby consiga reconhecer o arquivo como um módulo de CSS, precisamos nomear o arquivo como: `nomedoarquivo.module.css` ou `nomedoarquivo.module.scss`.   
+Com isso, criamos as classes dentro desse arquivo, e para importar no componente, utilizamos da seguinte forma:
+
+  ````
+  import * as React from 'react'
+  import { 
+    container,
+    heading
+  } from './css-modules/layout.module.scss'
+
+
+  const Layout = ({ pageTitle, children }) => {
+    return (
+      <div className={container}>
+        <main>
+          <h1 className={heading}>{pageTitle}</h1>
+          {children}
+        </main>
+      </div>
+    )
+  }
+
+  export default Layout
+  ````
+
+**ATENÇÃO: É importante lembrar que para a criação de classes no React, utilizamos `className` ao invés de `class`**
+
+### Dados Dinâmicos com GraphQL
+Antes de entrarmos nesse tópico, precisamos primeiro falar de como o conteúdo é guardado. Dependendo de onde está o conteúdo, vamos precisar de um plugin diferente para pegar esse conteúdo. Esses plugins são chamados de _source plugin_. Esses plugins geralmente começam com `gatsby-source`, como por exemplo o `gatsby-source-filesystem` ou o `gatsby-source-contentful`.
+
+Ah, outro ponto importante de lembrar é que quando rodamos o projeto localmente, além do link do projeto, também temos o link do graphQL disponível, para buscarmos e testarmos as chamadas.   
+Esse link normalmente vai ser `http://localhost:8000/___graphql` ou qualquer outra porta que o projeto está rodando.
+
+O processo para a chamada GraphQL é um pouco diferente entre os componentes e as páginas. Vamos ver a seguir cada um deles:
+
+#### Chamada GraphQL em componentes:
+
+Vamos analisar o componente abaixo, que usa a chamada de GraphQL para pegar o título do site, conforme configuramos no gatsby-config.
+
+  ````
+  import * as React from 'react'
+  import { graphql, useStaticQuery } from 'gatsby'
+
+  const Seo = ({ title }) => {
+    const data = useStaticQuery(graphql`
+      query {
+        site {
+          siteMetadata {
+            title
+          }
+        }
+      }
+    `)
+
+    return (
+      <title>{title} | {data.site.siteMetadata.title}</title>
+    )
+  }
+
+  export default Seo
+  ````
+
+Para fazer a chamada nos componentes, precisamos usar o método useStaticQuery, do Gatsby. Por isso, a primeira coisa que temos que fazer é importar o graphql e o useStaticQuery do gatsby.
+
+Dentro do componente, fazemos a chamada com os dados que queremos receber, e no `return` utilizamos a resposta para adicionar depois do título da página(title), que será adicionado através do prop do componente. 
+
+A resposta da chamada acima é a seguinte:
+
+  ````
+  {
+    "data": {
+      "site": {
+        "siteMetadata": {
+          "title": "My Gatsby Website"
+        }
+      }
+    },
+  }
+  ````
+
+Dessa forma, dentro da tag title, temos que colocar a resposta como `data.site.siteMetadata.title`
+
+#### Chamada GraphQL em Páginas:
+
+Nas páginas, não precisamos usar o useStaticQuery. Podemos fazer a chamada abaixo do conteúdo da página. Veja o exemplo abaixo:
+
+````
+  import React from "react"
+  import { graphql } from "gatsby"
+
+  export default function Page({ data }) {
+    return (
+      <div>
+        <h1>About {data.site.siteMetadata.title}</h1>
+        <p>We're a very cool website you should return to often.</p>
+      </div>
+    )
+  }
+
+  export const query = graphql`
+    query {
+      site {
+        siteMetadata {
+          title
+        }
+      }
+    }
+  `
+````
+
+No caso da página, é importante que o prop `Data` esteja presente, pois é dali que vamos tirar a informação.
+
+### Adicionando conteúdo dinâmico (MDX)
+#### Criando conteúdo
+Agora vamos criar conteúdo fictício pra fazer um blog. E vamos fazer isso usando o MDX. Dois plugins importantes para usar o MDX com o conteúdo dinâmico, são: `gatsby-plugin-mdx` e `gatsby-source-filesystem`
+
+Para configurar o `gatsby-source-filesystem`, vamos colocar no arquivo `gatsby-config.js` o seguinte trecho:
+````
+{
+  resolve: `gatsby-source-filesystem`,
+  options: {
+    name: `blog`,
+    path: `${__dirname}/blog`,
+  },
+  __key: "blog-posts"
+},
+````
+Onde o `path`, vai ser a pasta onde os arquivos MDX vão ficar e o `name` será o campo de `sourceInstanceName`, que serve para quando temos mais de uma pasta com arquivos MDX, dessa forma, conseguimos filtrar e pegar exatamente o conteúdo que queremos.
+
+Primeiro vamos criar uma pasta para colocar nossos posts do blog. Dentro dessa pasta `blog`, vamos criar uma pasta para cada post do blog, e criar um arquivo `index.mdx` dentro de cada post. Esse arquivo MDX vai ser o post em si. 
+
+Arquivos MDX usam Markup pra formatação. E no caso dos posts do Blog, podemos começar o arquivo com os informações do post, por exemplo:
+
+````
+---
+title: "Tech Talk"
+date: "2023-04-11"
+slug: "tech-talk"
+---
+````
+
+Essas informações serão acessadas utilizando o `data.mdx.frontmatter`. E logo abaixo, podemos criar o conteúdo do post.
+
+#### Consumindo conteúdo
+Depois de criar alguns posts, podemos criar uma página para listar os posts que criamos.
+
+````
+import * as React from 'react'
+import { graphql } from 'gatsby'
+
+const BlogPage = ({ data }) => {
+  return (
+    <div>
+      {
+        data.allMdx.nodes.map((node) => (
+          <article key={node.id}>
+            <h2>{node.frontmatter.title}</h2>
+            <p>Posted: {node.frontmatter.date}</p>
+            <p>{node.excerpt}</p>
+          </article>
+        ))
+      }
+    </div>
+  )
+}
+
+export const query = graphql`
+  query {
+    allMdx(sort: { frontmatter: { date: DESC }}) {
+      nodes {
+        frontmatter {
+          title
+          date(formatString: "MMMM DD, YYYY")
+        }
+        id
+        excerpt
+      }
+    }
+  }
+`
+
+export const Head = () => <title>My Blog Posts</title>
+
+export default BlogPage
+````
+
+Através do .map, pegamos todos os posts que criamos, e fazemos uma lista com esses posts.
+
+Na query, pegamos `allMdx` que fica disponível com o plugin que falamos anteriormente, o `gatsby-plugin-mdx`. E antes de fazer a chamada dos campos que queremos, ordenamos a resposta para que retorne do post mais antigo para o mais novo, com esse trecho `sort: { frontmatter: { date: DESC }}`.Dentro do node, temos o frontmatter, que são aquelas informações que colocamos antes do conteúdo, o excerpt, que é o começo do conteúdo, que foi separado automaticamente pelo plugin, e o id, que é único para cada post, criado automaticamente também.
+
+#### Rotas Dinâmicas e Página do Post
+
+A criação de rotas dinâmicas a partir de arquivos é bem simples, basta a gente utilizar a seguinte nomenclatura: `{nodeType.field}.js`
+
+No caso das páginas do blog, nós vamos pegar o nodeType `mdx`, que são os posts que criamos, e vamos usar o campo slug, que está no frontmatter, dessa forma, vamos criar um arquivo com o seguinte nome: `{mdx.frontmatter__slug}.js`.   
+É importante lembrar que para que a rota seja dinâmica, precisamos ter as chaves `{}` no inicio e no final do nome.   
+Outro ponto interessante, é que podemos usar qualquer campo, pois caso tenha caracteres especiais, ou espaços, esses caracteres serão convertidos para uma url amigável, por exemplo, `I ♥ Dogs` será convertido para `i-love-dogs`. Mas sempre é mais seguro termos esse campo de slug.
+
+Veja abaixo o exemplo simples de página de Post:
+
+````
+import * as React from 'react'
+
+const BlogPost = () => {
+  return (
+    <div>
+      <p>My blog post contents will go here (eventually).</p>
+    </div>
+  )
+}
+
+export const Head = () => <title>Blog Post Title</title>
+
+export default BlogPost
+````
+
+Como estamos usando o sistema de rotas dinâmicas do Gatsby (File System Route API), alguns props ja são automaticamente adicionados na página, são eles: o id do node usado, e o campo que escolhemos usar, nesse caso, o slug. 
+
+Vamos usar o id para fazer a chamada do conteúdo que queremos. Esses campos que chamamos na query serão passados pelo prop `data` e o conteúdo em si (que não precisa ser chamado dentro da query), será passado no `children`
+
+````
+import * as React from 'react'
+import { graphql } from 'gatsby'
+
+const BlogPost = ({data, children}) => {
+  return (
+    <div className="blogpost">
+      <h1 className="blogpost-title">{data.mdx.frontmatter.title}</h1>
+      <p className="blogpost-date">{data.mdx.frontmatter.date}</p>
+      {children}
+    </div>
+  )
+}
+
+export const query = graphql`
+  query ($id: String) {
+    mdx(id: {eq: $id}) {
+      frontmatter {
+        title
+        date(formatString: "MMMM D, YYYY")
+      }
+    }
+  }
+`
+
+export const Head = ({data}) => <title>{data.mdx.frontmatter.title}</title>
+
+export default BlogPost
+````
+
+É importante lembrar também, que como queremos retornar apenas um post específico, ao invés de usarmos `allMdx`, usamos `mdx` e colocamos o filtro `(id: {eq: $id})` para que a resposta seja exatamente o post que queremos, nesse caso, o porque que o ID é igual ao ID da página.

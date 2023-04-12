@@ -34,7 +34,7 @@
   text-decoration: none;
   transition: all .3s ease-in-out;
 
-  &:hover {
+  &:hover, &[aria-current=page] {
     color: #6a82fb;
   }
 }
