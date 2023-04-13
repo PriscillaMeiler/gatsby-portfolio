@@ -185,30 +185,32 @@ Esse componente deve ser usado nas páginas, logo após o conteúdo da página e
 #### Built-in Components - Link Component
 O Gatsby também disponibiliza um componente de link, que podemos usar para construir a página, e por isso é chamado de Building Block. Funciona da mesma forma que o `<nuxt-link>` para o Vue, mas a diferença é que nesse caso, quando vamos usar esse elemento, temos que fazer a chamada para importar no topo da página.
 
-    ````
-    import * as React from 'react'
-    import { Link } from 'gatsby'
+````
+import * as React from 'react'
+import { Link } from 'gatsby'
 
-    const Header = () => {
-      return (
-        <div>
-          <header>
-            <h1>Título</h1>
-            <nav>
-              <ul>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/about">About</Link></li>
-                <li><Link to="/blog">Blog</Link></li>
-              </ul>
-            </nav>
-          </header>
-        </div>
-      )
-    }
+const Header = () => {
+  return (
+    <div>
+      <header>
+        <h1>Título</h1>
+        <nav>
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/about">About</Link></li>
+            <li><Link to="/blog">Blog</Link></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+  )
+}
 
 
-    export default Header
-    ````
+export default Header
+````
+
+#### Anatomia de um componente
 
 Vamos separar o componente do Link para ver como ele é estruturado:
 
@@ -260,7 +262,7 @@ Com isso, criamos as classes dentro desse arquivo, e para importar no componente
 ### Dados Dinâmicos com GraphQL
 Antes de entrarmos nesse tópico, precisamos primeiro falar de como o conteúdo é guardado. Dependendo de onde está o conteúdo, vamos precisar de um plugin diferente para pegar esse conteúdo. Esses plugins são chamados de _source plugin_. Esses plugins geralmente começam com `gatsby-source`, como por exemplo o `gatsby-source-filesystem` ou o `gatsby-source-contentful`.
 
-Ah, outro ponto importante de lembrar é que quando rodamos o projeto localmente, além do link do projeto, também temos o link do graphQL disponível, para buscarmos e testarmos as chamadas.   
+Outro ponto importante de lembrar é que quando rodamos o projeto localmente, além do link do projeto, também temos o link do graphQL disponível, para buscarmos e testarmos as chamadas.   
 Esse link normalmente vai ser `http://localhost:8000/___graphql` ou qualquer outra porta que o projeto está rodando.
 
 O processo para a chamada GraphQL é um pouco diferente entre os componentes e as páginas. Vamos ver a seguir cada um deles:
@@ -340,7 +342,7 @@ Nas páginas, não precisamos usar o useStaticQuery. Podemos fazer a chamada aba
   `
 ````
 
-No caso da página, é importante que o prop `Data` esteja presente, pois é dali que vamos tirar a informação.
+No caso da página, é importante que o prop `data` esteja presente, pois é dali que vamos tirar a informação.
 
 ### Adicionando conteúdo dinâmico (MDX)
 #### Criando conteúdo
@@ -357,11 +359,12 @@ Para configurar o `gatsby-source-filesystem`, vamos colocar no arquivo `gatsby-c
   __key: "blog-posts"
 },
 ````
-Onde o `path`, vai ser a pasta onde os arquivos MDX vão ficar e o `name` será o campo de `sourceInstanceName`, que serve para quando temos mais de uma pasta com arquivos MDX, dessa forma, conseguimos filtrar e pegar exatamente o conteúdo que queremos.
+Onde o `path`, vai ser a pasta onde os arquivos MDX vão ficar e o `name` será o campo de `sourceInstanceName`, que serve para filtrar e pegar exatamente o conteúdo que queremos quando temos mais de uma pasta com arquivos MDX.
 
 Primeiro vamos criar uma pasta para colocar nossos posts do blog. Dentro dessa pasta `blog`, vamos criar uma pasta para cada post do blog, e criar um arquivo `index.mdx` dentro de cada post. Esse arquivo MDX vai ser o post em si. 
 
-Arquivos MDX usam Markup pra formatação. E no caso dos posts do Blog, podemos começar o arquivo com os informações do post, por exemplo:
+Arquivos MDX usam Markup pra formatação. E no caso dos posts do Blog, vamos começar o arquivo com os informações do post, usando frontmatter, que é identificado pelos três hífens (`---`) no início do arquivo e no final das informações do post.   
+Por exemplo:
 
 ````
 ---
@@ -372,6 +375,18 @@ slug: "tech-talk"
 ````
 
 Essas informações serão acessadas utilizando o `data.mdx.frontmatter`. E logo abaixo, podemos criar o conteúdo do post.
+
+````
+---
+title: "Tech Talk"
+date: "2023-04-11"
+slug: "tech-talk"
+---
+
+Bem-vindo ao meu blog! Este post é um post de exemplo. 
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+````
 
 #### Consumindo conteúdo
 Depois de criar alguns posts, podemos criar uma página para listar os posts que criamos.
@@ -416,9 +431,11 @@ export const Head = () => <title>My Blog Posts</title>
 export default BlogPage
 ````
 
-Através do .map, pegamos todos os posts que criamos, e fazemos uma lista com esses posts.
+Através do `.map`, pegamos todos os posts que criamos, e fazemos uma lista com esses posts.
 
-Na query, pegamos `allMdx` que fica disponível com o plugin que falamos anteriormente, o `gatsby-plugin-mdx`. E antes de fazer a chamada dos campos que queremos, ordenamos a resposta para que retorne do post mais antigo para o mais novo, com esse trecho `sort: { frontmatter: { date: DESC }}`.Dentro do node, temos o frontmatter, que são aquelas informações que colocamos antes do conteúdo, o excerpt, que é o começo do conteúdo, que foi separado automaticamente pelo plugin, e o id, que é único para cada post, criado automaticamente também.
+Na query, pegamos `allMdx` que fica disponível com o plugin que falamos anteriormente, o `gatsby-plugin-mdx`. E antes de fazer a chamada dos campos que queremos, ordenamos a resposta para que retorne do post mais antigo para o mais novo, com esse trecho `sort: { frontmatter: { date: DESC }}`.   
+Dentro do node, temos o frontmatter, que são aquelas informações que colocamos antes do conteúdo, o excerpt, que é o começo do conteúdo, que foi separado automaticamente pelo plugin, e o id, que é único para cada post, criado automaticamente também.   
+A data, como falamos no começo, está sendo formatada, pois cadastramos a data no formato `YYYY-MM-DD`, ou seja, já é reconhecida como data, e podemos usar a formatação para receber a resposta já no formato que queremos usar.
 
 #### Rotas Dinâmicas e Página do Post
 
@@ -446,7 +463,7 @@ export const Head = () => <title>Blog Post Title</title>
 export default BlogPost
 ````
 
-Como estamos usando o sistema de rotas dinâmicas do Gatsby (File System Route API), alguns props ja são automaticamente adicionados na página, são eles: o id do node usado, e o campo que escolhemos usar, nesse caso, o slug. 
+Como estamos usando o sistema de rotas dinâmicas do Gatsby (*File System Route API*), alguns props ja são automaticamente adicionados na página, são eles: o id do node usado, e o campo que escolhemos usar, nesse caso, o slug. 
 
 Vamos usar o id para fazer a chamada do conteúdo que queremos. Esses campos que chamamos na query serão passados pelo prop `data` e o conteúdo em si (que não precisa ser chamado dentro da query), será passado no `children`
 
@@ -480,4 +497,4 @@ export const Head = ({data}) => <title>{data.mdx.frontmatter.title}</title>
 export default BlogPost
 ````
 
-É importante lembrar também, que como queremos retornar apenas um post específico, ao invés de usarmos `allMdx`, usamos `mdx` e colocamos o filtro `(id: {eq: $id})` para que a resposta seja exatamente o post que queremos, nesse caso, o porque que o ID é igual ao ID da página.
+É importante lembrar também, que como queremos retornar apenas um post específico, ao invés de usarmos `allMdx`, usamos `mdx` e colocamos o filtro `(id: {eq: $id})` para que a resposta seja exatamente o post que queremos, nesse caso, o ID.
