@@ -42,7 +42,7 @@ const Header = ({ pageTitle, children }) => {
       // clean up the event handler when the component unmounts
       document.removeEventListener('scroll', handleScroll);
     };
-  }, [state.scrolled]);
+  }, [state, state.scrolled]);
   
   return (
     <div className={headerContainer} data-active={state.scrolled}>
