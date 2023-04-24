@@ -3,6 +3,7 @@ import { graphql, Link } from 'gatsby'
 import Layout from '../../components/layout'
 import Card from '../../components/postcard'
 import Header from '../../components/header'
+import Footer from '../../components/footer'
 import Seo from '../../components/seo'
 
 const BlogPage = ({ data }) => {
@@ -40,6 +41,7 @@ const BlogPage = ({ data }) => {
             ))
           }
           </Layout>
+          <Footer></Footer>
         </main>
       )
     }
@@ -60,6 +62,7 @@ const BlogPage = ({ data }) => {
             ))
           }
           </Layout>
+          <Footer></Footer>
         </main>
       )
     }
@@ -71,6 +74,7 @@ const BlogPage = ({ data }) => {
         <Layout pageTitle="Blog">
           <button onClick={displayPosts}>Show Posts</button>
         </Layout>
+        <Footer></Footer>
       </main>
     )
   }
@@ -78,7 +82,7 @@ const BlogPage = ({ data }) => {
 
 export const query = graphql`
   query {
-    allMdx: allMdx {
+    allMdx: allMdx(filter: {fields: {source: {eq: "blog" }}}) {
       nodes {
         frontmatter {
           date(formatString: "MMMM D, YYYY")
@@ -89,7 +93,10 @@ export const query = graphql`
         excerpt
       }
     }
-    sortedMdx: allMdx(sort: { frontmatter: { date: DESC } }) {
+    sortedMdx: allMdx(
+      filter: {fields: {source: {eq: "blog" }}}
+      sort: { frontmatter: { date: DESC } }
+    ) {
       nodes {
         frontmatter {
           date(formatString: "MMMM D, YYYY")

@@ -1,21 +1,34 @@
 import * as React from 'react'
-import { Link } from 'gatsby'
 
 import { 
-  card,
+  cardBlog,
+  cardProject,
   dateStyles,
-  heading
+  heading,
+  bgImage
 } from './css-modules/card.module.scss'
 
 
-const Card = ({ title, date, id, children }) => {
-  return (
-    <article key={id} className={card}>
-      <h2 className={heading}>{title}</h2>
-      <p className={dateStyles}>Posted in {date}</p>
-      {children}
-    </article>
-  )
+const Card = ({ title, date, id, hover, children }) => {
+  if(date) {
+    return (
+      <article key={id} className={cardBlog}>
+        <h2 className={heading}>{title}</h2>
+        <p className={dateStyles}>Posted in {date}</p>
+        {children}
+      </article>
+    )
+  } else {
+    return (
+      <>
+        <article key={id} className={cardProject}>
+          <h2 className={heading}>{title}</h2>
+          {children}
+        </article>
+        <img src={hover} alt='teste' className={bgImage} />
+      </>
+    )
+  }
 }
 
 export default Card

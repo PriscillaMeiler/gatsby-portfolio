@@ -2,6 +2,7 @@ import * as React from "react"
 import Seo from '../components/seo'
 import Layout from '../components/layout'
 import Header from '../components/header'
+import Footer from '../components/footer'
 import "../styles/index.scss"
 
 const docLink = {
@@ -90,6 +91,7 @@ const IndexPage = () => {
           />
         </div>
       </Layout>
+      <Footer></Footer>
     </main>
   )
 }

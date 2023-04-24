@@ -2,6 +2,8 @@ import * as React from 'react'
 import { graphql } from 'gatsby'
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 import Layout from '../../components/layout'
+import Header from '../../components/header'
+import Footer from '../../components/footer'
 import Seo from '../../components/seo'
 import "../../styles/index.scss"
 import "../../styles/blog.scss"
@@ -12,11 +14,13 @@ const BlogPost = ({data, children}) => {
 
   return (
     <div className="blogpost">
+      <Header></Header>
       <GatsbyImage image={image} alt={data.mdx.frontmatter.hero_image_alt}/>
       <Layout pageTitle={data.mdx.frontmatter.title}>
         <p className="blogpost-date">{data.mdx.frontmatter.date}</p>
         {children}
       </Layout>
+      <Footer></Footer>
     </div>
   )
 }
