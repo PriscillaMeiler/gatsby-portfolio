@@ -10,9 +10,8 @@
   a {
     position: relative;
     border-radius: 10px;
-    padding: 10px 20px;
     box-shadow: 0 0 10px 1px #a1a1a1;
-    background-color: #6a82fb;
+    background: linear-gradient(135deg, #6a82fb 0%,#fc5c7d 100%);
     background-size: cover;
     transition: all .3s ease-in-out;
     overflow: hidden;
@@ -31,25 +30,26 @@
     }
   }
 }
-.filter-buttons {
+.filter-buttons { display: flex; align-items: center; justify-content: center;
+
   button {
-    background: lightskyblue;
+    background: transparent;
     box-shadow: none;
     padding: 10px 15px;
-    border-radius: 3px;
-    border: none;
-    cursor: pointer;
+    border-radius: 30px;
+    border: 2px solid #6a82fb;
+    color: #6a82fb;
     transition: all .3s ease-in-out;
     font-family: 'Montserrat', Helvetica, Arial, sans-serif;
     font-weight: 400;
+    cursor: pointer;
 
     + button {
       margin-left: 16px;
     }
     &.selected, &:hover {
-      background-color: lightpink;
-      border-color: lightpink;
-      box-shadow: 0 0 10px 0px lightgrey;
+      background-color: #6a82fb;
+      color: #FFF;
     }
   }
 }

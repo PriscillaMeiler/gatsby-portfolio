@@ -95,7 +95,7 @@ const ProjectsPage = ({ data }) => {
     return (
       <main>
         <Header></Header>
-        <Layout pageTitle="Projects">
+        <Layout pageTitle="Projects" pageSummary="Here you'll find a few of the projects I worked on.">
           <div className="filter-buttons">
             <button onClick={displayAll} className="selected">All Projects</button>
             <button onClick={displayDesign}>Design Projects</button>

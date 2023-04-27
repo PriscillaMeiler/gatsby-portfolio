@@ -1,0 +1,60 @@
+.heroHome {
+  position: relative; display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; padding-top: 120px;
+
+  @media screen and (min-width: 768px) {
+    flex-wrap: nowrap;
+  }
+}
+.heroHomeContent { padding: 50px; color: white; text-align: center; }
+.heroHomeImage { 
+  img {
+    max-width: 100%;
+  }
+  @media screen and (min-width: 768px) {
+    max-width: 50%; text-align: right;
+  }
+}
+
+.aboutHome {
+  position: relative; max-width: 700px; padding-bottom: 300px; margin: 0 auto -230px; 
+
+  p, h2 {
+    color: white;
+    text-align: center;
+  }
+}
+
+.skillsHome {
+  position: relative;
+  z-index: 1;
+}
+.skillsCards { 
+  position: relative; display: flex; justify-content: space-evenly; max-width: 1200px; margin: 0 auto;
+  
+  @media screen and (max-width: 767px) {
+    flex-direction: column; align-items: center; 
+  }
+}
+.skillsCard { 
+  max-width: 304px; margin: 0 2rem 100px; background-color: white; transition: all .3s ease-in-out; text-align: center; padding: 4%; border-radius: 10px; box-shadow: 0 0 14px 0px rgba(0,0,0,.4);
+  &:hover { transform: scale(1.04); }
+
+  @media screen and (max-width: 767px) {
+    margin: 0 0 2rem 0; padding: 20px;
+  }
+}
+
+.contactSection { position: relative; margin-top: 2rem; z-index: 2; }
+.contactCard { background-color: white; text-align: center; padding: 4%; border-radius: 10px; box-shadow: 0 0 14px 0px rgba(0,0,0,.4); max-width: 760px; margin: 0 auto;
+  h2 {margin-bottom: .3rem;}
+  p { max-width: 550px; margin: 0 auto 20px; }
+}
+
+.contactForm { max-width: 550px; margin: 40px auto 30px; font-family: 'Montserrat', Helvetica, Arial, sans-serif; font-size: 13px;
+  label { display: inline-block; width: 90%; text-align: left; margin-bottom: 6px;display: none; }
+  input, textarea { width: 90%; padding: 10px; margin-bottom: 10px; border-radius: 7px; border: none; background-color: #f4f4f4; font-family: 'Montserrat', Helvetica, Arial, sans-serif; font-size: 12px; }
+  textarea { min-height: 100px; }
+  button { margin-top: 40px; background-color: transparent; border: 2px solid #6a82fb; transition: all .6s ease-in-out; padding: 10px 25px; color: #6a82fb; border-radius: 20px;
+    &:hover { background-color: #6a82fb; color: #FFF; }
+  }
+}

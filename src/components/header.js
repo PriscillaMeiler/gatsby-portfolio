@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby'
 
+// Images
+import brandImage from '../images/placeholder_brand.png'
+
 import { 
   headerContainer,
   navLinks,
@@ -29,7 +32,7 @@ const Header = ({ pageTitle, children }) => {
   // change state on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
+      const isScrolled = window.scrollY > 150;
       if (isScrolled !== state.scrolled) {
         setState({
           ...state,
@@ -47,8 +50,7 @@ const Header = ({ pageTitle, children }) => {
   return (
     <div className={headerContainer} data-active={state.scrolled}>
       <header>
-        <h1>{data.site.siteMetadata.title}</h1>
-        <p>{data.site.siteMetadata.description}</p>
+        <img src={brandImage} alt={data.site.siteMetadata.title} width="62" />
         <nav>
           <ul className={navLinks}>
             <li className={navLinkItem}><Link to="/" className={navLinkText}>Home</Link></li>

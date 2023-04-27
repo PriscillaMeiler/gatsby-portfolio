@@ -2,17 +2,23 @@ import * as React from 'react'
 
 import { 
   container,
-  heading
+  heading,
+  titleHeader,
+  titleHeaderContent
 } from './css-modules/layout.module.scss'
 
-
-const Layout = ({ pageTitle, children }) => {
+const Layout = ({ pageTitle, pageSummary, children }) => {
   return (
-    <div className={container}>
-      <main>
-        <h1 className={heading}>{pageTitle}</h1>
+    <div className="page-content">
+      <div className={titleHeader}>
+        <div className={titleHeaderContent}>
+          <h1 className={heading}>{pageTitle}</h1>
+          <p>{pageSummary}</p>
+        </div>
+      </div>
+      <div className={container}>
         {children}
-      </main>
+      </div>
     </div>
   )
 }

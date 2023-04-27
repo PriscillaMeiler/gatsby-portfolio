@@ -15,8 +15,8 @@ const BlogPost = ({data, children}) => {
   return (
     <div className="blogpost">
       <Header></Header>
-      <GatsbyImage image={image} alt={data.mdx.frontmatter.hero_image_alt}/>
-      <Layout pageTitle={data.mdx.frontmatter.title}>
+      <Layout pageTitle={`Blog | ${data.mdx.frontmatter.title}`} pageSummary="">
+        <GatsbyImage image={image} alt={data.mdx.frontmatter.hero_image_alt}/>
         <p className="blogpost-date">{data.mdx.frontmatter.date}</p>
         {children}
       </Layout>

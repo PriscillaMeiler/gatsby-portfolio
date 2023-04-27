@@ -3,8 +3,30 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  
+  @media screen and (min-width: 1024px) {
+    flex-wrap: nowrap;
+  }
+
+  @media screen and (min-width: 1024px) {
+  &__quote {
+    max-width: 45%;
+  }
+  &__text {
+      max-width: 50%;
+    }
+  }
+
 }
 
+p a {
+  color: #fc5c7d !important;
+  text-decoration: none;
+  position: relative;
+  
+  &::after { content: ""; position: absolute; bottom: 0; left: 0; display: inline-block; width: 0%; height: 1px; background-color: #fc5c7d; transition: all .4s ease-in-out; }
+  &:hover::after { width: 100%; }
+}
 blockquote {
   position: relative;
   padding: 10px 40px 20px;

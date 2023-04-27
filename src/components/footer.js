@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'gatsby'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Images
@@ -17,7 +16,7 @@ import { faCodeBranch } from '@fortawesome/free-solid-svg-icons';
 
 const Footer = ({ pageTitle, children }) => {
   return (
-    <div className={footerContainer}>
+    <div className={`page-footer ${footerContainer}`}>
       <footer>
         <div className={brandFooter}>
           <img src={brandImage} alt={"My Brand"} />
@@ -25,17 +24,17 @@ const Footer = ({ pageTitle, children }) => {
         <nav className={navFooter}>
           <ul>
             <li>
-              <a href="https://www.linkedin.com/in/priscilla-meiler/" target="_blank" title="My LinkedIn Profile">
+              <a href="https://www.linkedin.com/in/priscilla-meiler/" target="_blank" rel="noreferrer" title="My LinkedIn Profile">
                 <FontAwesomeIcon icon={faAddressCard} inverse size="lg" />
               </a>
             </li>
             <li>
-              <a href="https://github.com/PriscillaMeiler/" target="_blank" title="My GitHub Profile">
+              <a href="https://github.com/PriscillaMeiler/" target="_blank" rel="noreferrer" title="My GitHub Profile">
                 <FontAwesomeIcon icon={faCodeBranch} inverse size="lg" />
               </a>
             </li>
             <li>
-              <a href="mailto:primeiler@gmail.com" target="_blank" title="Send me an email">
+              <a href="mailto:primeiler@gmail.com" target="_blank" rel="noreferrer" title="Send me an email">
                 <FontAwesomeIcon icon={faEnvelope} inverse size="lg" />
               </a>
             </li>
