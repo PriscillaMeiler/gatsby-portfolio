@@ -49,7 +49,7 @@ export const query = graphql`
   query {
     allMdx(
       filter: {fields: {source: {eq: "projects" }}}
-      limit: 4
+      limit: 5
       sort: {frontmatter: {date: DESC}}
     ) {
       nodes {

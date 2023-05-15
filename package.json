@@ -28,6 +28,7 @@
     "gatsby-plugin-mdx-source-name": "^1.0.1",
     "gatsby-plugin-sass": "^6.8.0",
     "gatsby-plugin-sharp": "^5.8.1",
+    "gatsby-remark-images": "^7.9.0",
     "gatsby-source-filesystem": "^5.8.0",
     "gatsby-transformer-sharp": "^5.8.0",
     "react": "^18.2.0",

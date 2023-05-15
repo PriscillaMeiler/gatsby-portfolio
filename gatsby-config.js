@@ -7,7 +7,7 @@ module.exports = {
     description: `Learning Gatsby from scratch.`,
     siteUrl: `https://github.com/PriscillaMeiler/gatsby-portfolio`
   },
-  plugins: ["gatsby-plugin-sass", "gatsby-plugin-image", "gatsby-plugin-sharp", "gatsby-transformer-sharp", "gatsby-plugin-mdx", `gatsby-plugin-mdx-source-name` ,
+  plugins: ["gatsby-plugin-sass", "gatsby-plugin-image", "gatsby-plugin-sharp", "gatsby-transformer-sharp", `gatsby-plugin-mdx-source-name` ,
   {
     resolve: 'gatsby-source-filesystem',
     options: {
@@ -55,6 +55,19 @@ module.exports = {
       theme_color: '#a2466c',
       display: 'standalone',
       icon: 'src/images/icon.png',
+    },
+  },
+  {
+    resolve: `gatsby-plugin-mdx`,
+    options: {
+      gatsbyRemarkPlugins: [
+        {
+          resolve: `gatsby-remark-images`,
+          options: {
+            maxWidth: 1200,
+          },
+        },
+      ],
     },
   },
 ]

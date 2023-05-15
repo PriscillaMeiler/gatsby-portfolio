@@ -5,8 +5,8 @@ import Footer from '../components/footer'
 import Seo from '../components/seo'
 import "../styles/about.scss"
 
-// Images
-import imagePlaceholder from '../images/portfolio-placeholder.jpg'
+// Image
+import profileImage from '../images/profileimg.jpg'
 
 const AboutPage = () => {
   return (
@@ -20,11 +20,14 @@ const AboutPage = () => {
             <p>I love learning new things, and I think this field is the best for people like me, that are eager to learn, because it is always changing and updating. And there's always something new to learn.</p>
             <p>I'm a quick learner, and I like to pay attention to details. Because of that, sometimes I have to make some visual adjustments, and that's when I'm glad I had my Design degree.</p>
           </div>
-          <div className="about-container__quote">
+          <div className="about-container__image">
+            <img src={profileImage} alt="Priscilla's photo" aspect-ratio="1" />
+          </div>
+          {/* <div className="about-container__quote">
             <blockquote className="quote">
               <p>Always walk through life as if you have something new to learn and you will.</p>
             </blockquote>
-          </div>
+          </div> */}
         </div>
         <div>
           <h2>About my Career</h2>

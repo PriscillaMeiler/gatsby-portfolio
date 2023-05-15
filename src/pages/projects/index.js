@@ -12,14 +12,14 @@ const ProjectsPage = ({ data }) => {
   const [state, setState] = useState({
     allProjects: true,
     fedProjects: false,
-    designProjects: false,
+    wordpressProjects: false,
   });
   const displayAll = () => {
     setState({
       ...state,
       allProjects: true,
       fedProjects: false,
-      designProjects: false,
+      wordpressProjects: false,
     });
   };
   const displayFed = () => {
@@ -27,31 +27,31 @@ const ProjectsPage = ({ data }) => {
       ...state,
       allProjects: false,
       fedProjects: true,
-      designProjects: false,
+      wordpressProjects: false,
     });
   };
-  const displayDesign = () => {
+  const displayWordpress = () => {
     setState({
       ...state,
       allProjects: false,
       fedProjects: false,
-      designProjects: true,
+      wordpressProjects: true,
     });
   };
   
-  if(state.designProjects) {
+  if(state.wordpressProjects) {
     return (
       <main>
         <Header></Header>
         <Layout pageTitle="Projects">
           <div className="filter-buttons">
             <button onClick={displayAll}>All Projects</button>
-            <button onClick={displayDesign} className="selected">Design Projects</button>
-            <button onClick={displayFed}>Front-End Projects</button>
+            <button onClick={displayWordpress} className="selected">CMS Integration</button>
+            <button onClick={displayFed}>Vue/React</button>
           </div>
           <div className='grid-container'>
             {
-              data.designProjects.nodes.map((node) => (
+              data.wordpressProjects.nodes.map((node) => (
                 <Link to={`/projects/${node.frontmatter.slug}`} style={{textDecoration: 'none' }} key={node.id}>
                   <Card title={node.frontmatter.title} id={node.id} hover={node.frontmatter.hover_image.publicURL}>
                     <p>{node.excerpt}</p>
@@ -72,8 +72,8 @@ const ProjectsPage = ({ data }) => {
         <Layout pageTitle="Projects">
           <div className="filter-buttons">
             <button onClick={displayAll}>All Projects</button>
-            <button onClick={displayDesign}>Design Projects</button>
-            <button onClick={displayFed} className="selected">Front-End Projects</button>
+            <button onClick={displayWordpress}>CMS Integration</button>
+            <button onClick={displayFed} className="selected">Vue/React</button>
           </div>
           <div className='grid-container'>
             {
@@ -98,8 +98,8 @@ const ProjectsPage = ({ data }) => {
         <Layout pageTitle="Projects" pageSummary="Here you'll find a few of the projects I worked on.">
           <div className="filter-buttons">
             <button onClick={displayAll} className="selected">All Projects</button>
-            <button onClick={displayDesign}>Design Projects</button>
-            <button onClick={displayFed}>Front-End Projects</button>
+            <button onClick={displayWordpress}>CMS Integration</button>
+            <button onClick={displayFed}>Vue/React</button>
           </div>
           <div className='grid-container'>
             {
@@ -121,7 +121,10 @@ const ProjectsPage = ({ data }) => {
 
 export const query = graphql`
   query {
-    allProjects: allMdx(filter: {fields: {source: {eq: "projects" }}}) {
+    allProjects: allMdx(
+      filter: {fields: {source: {eq: "projects" }}}
+      sort: {frontmatter: {order: ASC}}
+    ) {
       nodes {
         frontmatter {
           date(formatString: "MMMM D, YYYY")
@@ -153,8 +156,8 @@ export const query = graphql`
         excerpt
       }
     }
-    designProjects: allMdx(
-      filter: {fields: {source: {eq: "projects"}}, frontmatter: {category: {eq: "Design"}}}
+    wordpressProjects: allMdx(
+      filter: {fields: {source: {eq: "projects"}}, frontmatter: {category: {eq: "Wordpress"}}}
       ) {
         nodes {
           frontmatter {

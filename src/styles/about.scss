@@ -3,6 +3,13 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+
+  &__image {
+    display: none;
+    img {
+      max-width: 100%;
+    }
+  }
   
   @media screen and (min-width: 1024px) {
     flex-wrap: nowrap;
@@ -12,6 +19,17 @@
   &__quote {
     max-width: 45%;
   }
+  &__image {
+    max-width: 45%;
+    display: block;
+    overflow: hidden;
+    border: 15px solid #7d7dea;
+    box-shadow: 0 0 15px 0px #cecece;
+
+    img {
+      margin-bottom: -15px;
+    }
+  }
   &__text {
       max-width: 50%;
     }
@@ -19,7 +37,7 @@
 
 }
 
-p a {
+p a:not(.gatsby-resp-image-link) {
   color: #fc5c7d !important;
   text-decoration: none;
   position: relative;
